@@ -1,0 +1,123 @@
+<section class="pt-3" *ngIf="product$ | async as product">
+  <div class="container">
+    <div class="row gx-5">
+      <aside class="col-lg-6">
+        <div class="mb-3 d-flex justify-content-center">
+          <img
+            nz-image
+            height="400px"
+            style="width: 100%; margin: auto; object-fit: cover"
+            class="rounded-4 fit"
+            nzSrc="{{ product.thumbnail }}"
+            alt=""
+          />
+        </div>
+        <div class="d-flex mb-3">
+          <nz-image-group>
+            <img
+              *ngFor="let image of product.images"
+              nz-image
+              width="100px"
+              nzSrc="{{ image }}"
+              alt=""
+              class="rounded-1 mr-1 mb-1"
+            />
+          </nz-image-group>
+        </div>
+      </aside>
+      <main class="col-lg-6">
+        <div class="ps-lg-3">
+          <h4 class="title text-dark">
+            {{ product.name }}
+          </h4>
+          <div class="d-flex flex-row my-3">
+            <!-- <div class="text-warning mb-1 me-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span class="ms-1"> 4.5 </span>
+            </div>
+            <span class="text-muted"
+              ><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span
+            > -->
+            <span
+              class="text-success"
+              *ngIf="product.stock > 0; else outOfStock"
+              >Available: {{ product.stock }}
+            </span>
+            <ng-template #outOfStock>
+              <span class="text-danger">Out of stock</span>
+            </ng-template>
+          </div>
+
+          <div class="mb-3">
+            <span class="h5">
+              {{
+                product.unitPrice | currency : "USD" : "symbol" : "1.2-2"
+              }}</span
+            >
+          </div>
+
+          <p>
+            {{ product.description }}
+          </p>
+          <nz-divider></nz-divider>
+
+          <div class="row">
+            <div class="col-md-4 col-6 mb-3">
+              <label class="mb-2 d-block">Quantity</label>
+              <div class="input-group mb-3" style="width: 170px">
+                <button
+                  class="btn btn-white border border-secondary px-3"
+                  type="button"
+                  id="decrease-btn"
+                  data-mdb-ripple-color="dark"
+                  (click)="decreaseQuantity()"
+                >
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input
+                  type="number"
+                  class="form-control text-center border border-secondary"
+                  placeholder="1"
+                  aria-label="Example text with button addon"
+                  aria-describedby="decrease-btn"
+                  id="quantity-input"
+                  [(ngModel)]="quantity"
+                />
+                <button
+                  class="btn btn-white border border-secondary px-3"
+                  type="button"
+                  id="increase-btn"
+                  data-mdb-ripple-color="dark"
+                  (click)="increaseQuantity(product.stock)"
+                >
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button
+            *ngIf="product.stock > 0; else disabledAddToCart"
+            class="flex-grow-1"
+            nz-button
+            nzType="primary"
+          >
+            Add to cart<span
+              nz-icon
+              nzType="shopping-cart"
+              nzTheme="outline"
+            ></span>
+          </button>
+          <ng-template #disabledAddToCart>
+            <button class="flex-grow-1" nz-button nzDanger nzType="primary">
+              Out of stock
+            </button></ng-template
+          >
+        </div>
+      </main>
+    </div>
+  </div>
+</section>

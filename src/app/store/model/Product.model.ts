@@ -1,8 +1,8 @@
 interface BaseProduct {
   id: number;
   name: string;
-  price: number;
-  quantity: number;
+  unitPrice: number;
+  stock: number;
 }
 export interface DetailProduct extends BaseProduct {
   description: string;
@@ -12,4 +12,15 @@ export interface DetailProduct extends BaseProduct {
 export interface SimpleProduct extends BaseProduct {
   shortDescription: string;
   thumbnail: string;
+  categoryName: string;
+}
+export interface PaginationProduct {
+  list: SimpleProduct[];
+  total: number;
+  currentPage: number;
+  limit: number;
+  sortBy: string;
+  order: string;
+  search: string;
+  category: number;
 }

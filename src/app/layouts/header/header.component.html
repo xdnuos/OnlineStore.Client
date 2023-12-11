@@ -13,28 +13,20 @@
     </a>
   </div>
   <div class="nav-wrap">
-    <ul class="nav-left">
-      <li class="desktop-toggle">
-        <!-- <a (click)="toggleFold()">
-          <i
-            nz-icon
-            [nzType]="isFolded ? 'menu-unfold' : 'menu-fold'"
-            theme="outline"
-          ></i>
-        </a> -->
-      </li>
-      <li class="mobile-toggle">
-        <!-- <a (click)="toggleExpand()">
-          <i
-            nz-icon
-            [nzType]="isExpand ? 'menu-fold' : 'menu-unfold'"
-            theme="outline"
-          ></i>
-        </a> -->
-      </li>
-    </ul>
+    <ul class="nav-left"></ul>
     <ul class="nav-right">
       <li>
+        <a href="cart">
+          <span
+            class="p-h-10 pointer"
+            id="shopping-cart"
+            nz-icon
+            nzType="shopping-cart"
+            nzTheme="outline"
+          ></span
+        ></a>
+      </li>
+      <!-- <li>
         <a
           nz-dropdown
           nzTrigger="click"
@@ -64,7 +56,7 @@
                 <small>View All</small>
               </a>
             </div>
-            <!-- <perfect-scrollbar
+            <perfect-scrollbar
               class="overflow-y-auto"
               style="max-height: 300px"
             >
@@ -93,10 +85,11 @@
                   </nz-list-item>
                 </ng-template>
               </nz-list>
-            </perfect-scrollbar> -->
+            </perfect-scrollbar>
           </div>
         </nz-dropdown-menu>
-      </li>
+      </li> -->
+
       <li>
         <span
           class="p-h-10 pointer"
