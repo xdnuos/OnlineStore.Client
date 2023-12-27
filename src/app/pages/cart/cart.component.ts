@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { CookieService } from 'ngx-cookie-service';
+import { OrdersService } from '../../services/order.service';
 import { ProductService } from '../../services/product.service';
 import { CartItemDetail } from '../../store/model/Cart.model';
+import { ProductOrder } from '../../store/model/Order.model';
 import { DetailProduct } from '../../store/model/Product.model';
 @Component({
   selector: 'app-cart-page',
@@ -18,7 +20,8 @@ export class CartPage implements OnInit {
     private cookieService: CookieService,
     private productService: ProductService,
     private message: NzMessageService,
-    private confirm: NzModalService
+    private confirm: NzModalService,
+    private ordersService: OrdersService
   ) {}
   ngOnInit(): void {
     const listID = this.cartItems.map((item: any) => item.productID);
@@ -155,8 +158,26 @@ export class CartPage implements OnInit {
         'When clicked the OK button, this dialog will be closed after 1 second',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        }).catch(() => console.log('Oops errors!')),
+          this.createOrder();
+        }).catch((error) => {
+          console.log('Oops errors!');
+          this.message.error('Oops errors!', error);
+        }),
+    });
+  }
+
+  createOrder() {
+    const orderItems: ProductOrder[] = this.items.map((item) => {
+      return {
+        productID: item.productID,
+        quantity: item.quantity,
+      };
+    });
+    this.ordersService.create(orderItems).subscribe(() => {
+      this.message.success('Successfully created order');
+      this.cookieService.set('cartItems', JSON.stringify([]));
+      this.items = [];
+      this.total = 0;
     });
   }
 }

@@ -14,3 +14,7 @@ nz-layout nz-layout,
 nz-layout:last-child {
   margin: 0;
 }
+.white-bg {
+  background-color: #fff;
+  padding: 20px;
+}

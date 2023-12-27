@@ -1,0 +1,20 @@
+<div class="d-flex justify-content-between">
+  <div class="d-flex flex-row">
+    <img
+      nz-image
+      [nzSrc]="item?.thumbnail || ''"
+      alt=""
+      width="96px"
+      height="96px"
+    />
+    <div class="ml-3">
+      <h4 nz-typography>{{ item?.productName }}</h4>
+      <div style="float: left">x{{ item?.quantity }}</div>
+    </div>
+  </div>
+  <div class="price" style="margin: auto 0">
+    <div>
+      <span>{{ item?.unitPrice | currency : "USD" : "symbol" : "1.2-2" }}</span>
+    </div>
+  </div>
+</div>

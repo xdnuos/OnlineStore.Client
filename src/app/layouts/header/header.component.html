@@ -90,7 +90,7 @@
         </nz-dropdown-menu>
       </li> -->
 
-      <li>
+      <li *ngIf="user != null; else noLogin">
         <span
           class="p-h-10 pointer"
           nz-dropdown
@@ -111,11 +111,13 @@
                   nzSize="large"
                   nzSrc="assets/images/avatars/thumb-3.jpg"
                 ></nz-avatar>
-                <div class="m-l-10">
-                  <p class="m-b-0 text-dark font-weight-semibold">
-                    Marshall Nichols
+                <div class="d-flex align-items-center">
+                  <p
+                    class="text-dark font-weight-semibold"
+                    style="margin: 0 8px"
+                  >
+                    {{ user?.firstName + " " + user?.lastName }}
                   </p>
-                  <p class="m-b-0 opacity-07">UI/UX Desinger</p>
                 </div>
               </div>
             </li>
@@ -130,7 +132,7 @@
                     nzType="user"
                     theme="outline"
                   ></i>
-                  <span class="m-l-10">Edit Profile</span>
+                  <a class="m-l-10" href="/profile">Profile</a>
                 </div>
                 <i
                   class="font-size-10"
@@ -151,7 +153,9 @@
                     nzType="lock"
                     theme="outline"
                   ></i>
-                  <span class="m-l-10">Account Setting</span>
+                  <span class="m-l-10" (click)="changePassword()"
+                    >Change Password</span
+                  >
                 </div>
                 <i
                   class="font-size-10"
@@ -172,7 +176,7 @@
                     nzType="project"
                     theme="outline"
                   ></i>
-                  <span class="m-l-10">Projects</span>
+                  <a class="m-l-10" href="/orders">My orders</a>
                 </div>
                 <i
                   class="font-size-10"
@@ -193,7 +197,7 @@
                     nzType="logout"
                     theme="outline"
                   ></i>
-                  <span class="m-l-10">Logout</span>
+                  <span class="m-l-10" (click)="logout()">Sign Out</span>
                 </div>
                 <i
                   class="font-size-10"
@@ -206,6 +210,13 @@
           </ul>
         </nz-dropdown-menu>
       </li>
+      <ng-template #noLogin>
+        <li>
+          <a href="login">
+            <button nz-button nzType="primary">Sign In</button>
+          </a>
+        </li>
+      </ng-template>
     </ul>
   </div>
 </div>

@@ -26,6 +26,8 @@ export class ProductPaginationComponent implements OnInit {
   products$: Observable<SimpleProduct[]> = new Observable<SimpleProduct[]>();
   total$: Observable<number> = new Observable<number>();
   categories$: Observable<Category[]> = new Observable<Category[]>();
+  private length: number = 0;
+  private isLoadCategory: boolean = false;
   constructor(
     private store: Store,
     private modalService: NzModalService,
@@ -39,8 +41,21 @@ export class ProductPaginationComponent implements OnInit {
     { label: 'Price [Low - High]', sortBy: 'price', order: 'desc' },
   ];
   ngOnInit() {
-    console.log(this.products$);
-    if (this.products$ !== undefined) {
+    // load from store
+    this.categories$ = this.store.select(
+      fromCategorySelectors.selectCategories
+    );
+    this.products$ = this.store.select(fromProductSelectors.selectProducts);
+
+    //check if products is empty then load products
+    this.products$.subscribe((products) => (this.length = products.length));
+    this.categories$.subscribe((categories) => {
+      categories.length > 0
+        ? (this.isLoadCategory = true)
+        : (this.isLoadCategory = false);
+    });
+    console.log('check', this.length, this.isLoadCategory);
+    if (this.length === 0) {
       this.store.dispatch(
         loadProductPagination({
           page: 1,
@@ -52,14 +67,10 @@ export class ProductPaginationComponent implements OnInit {
         })
       );
     }
-    if (this.categories$ !== undefined) {
+    if (!this.isLoadCategory) {
       this.store.dispatch(loadCategories());
     }
-    this.products$ = this.store.select(fromProductSelectors.selectProducts);
     this.total$ = this.store.select(fromProductSelectors.selectTotal);
-    this.categories$ = this.store.select(
-      fromCategorySelectors.selectCategories
-    );
   }
 
   pageChanged(pageIndex: number) {

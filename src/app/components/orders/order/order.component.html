@@ -1,0 +1,30 @@
+<div class="order">
+  <section>
+    <div class="d-flex flex-row">
+      <nz-typography>Order #{{ order?.orderID }} </nz-typography>
+      <nz-typography>| {{ order?.createAt | date : "medium" }}</nz-typography>
+    </div>
+  </section>
+  <nz-divider nzType="horizontal"></nz-divider>
+  <section *ngFor="let orderItem of order?.orderDetails">
+    <app-order-item [orderItem]="orderItem"></app-order-item>
+    <hr
+      style="
+        height: 1px;
+        border-width: 0;
+        color: gray;
+        background-color: gray;
+        margin: 12px 0;
+      "
+    />
+  </section>
+  <section>
+    <div class="price d-flex justify-content-between">
+      <button nz-button nzDanger>Cancel order</button>
+
+      <span>
+        Total: {{ order?.totalPrice | currency : "USD" : "symbol" : "1.2-2" }}
+      </span>
+    </div>
+  </section>
+</div>

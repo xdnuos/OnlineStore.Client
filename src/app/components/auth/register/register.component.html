@@ -1,0 +1,86 @@
+<form
+  nz-form
+  [formGroup]="validateForm"
+  class="login-form mt-3"
+  (ngSubmit)="submitForm()"
+>
+  <div nz-row class="d-flex justify-content-between">
+    <nz-form-item nz-col [nzSpan]="11">
+      <nz-form-control nzErrorTip="Please input your First name!">
+        <nz-input-group nzPrefixIcon="user">
+          <input
+            type="text"
+            nz-input
+            formControlName="firstName"
+            placeholder="First Name"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-col [nzSpan]="12">
+      <nz-form-control nzErrorTip="Please input your Last name!">
+        <nz-input-group nzPrefixIcon="user">
+          <input
+            type="text"
+            nz-input
+            formControlName="lastName"
+            placeholder="Last Name"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your email!">
+      <nz-input-group nzPrefixIcon="mail">
+        <input
+          type="email"
+          nz-input
+          formControlName="email"
+          placeholder="Email"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your password">
+      <nz-input-group nzPrefixIcon="key">
+        <input
+          nzFor="password"
+          type="password"
+          nz-input
+          formControlName="password"
+          placeholder="Password"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Your password does not match!">
+      <nz-input-group nzPrefixIcon="key">
+        <input
+          nzFor="password"
+          type="password"
+          nz-input
+          formControlName="rePassword"
+          placeholder="Repeat your password"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="You need agree terms of service">
+      <label nz-checkbox class="mb-3" formControlName="agree">
+        <label for="agree-term" class="label-agree-term"
+          ><span><span></span></span>I agree all statements in
+          <a href="" class="term-service">Terms of service</a></label
+        ></label
+      >
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button nzType="primary" style="width: 100%">Sign Up</button>
+</form>
+<div class="mt-2">
+  Alredy have an account?
+  <a href="login" class="signup-image-link">Login</a>
+</div>
