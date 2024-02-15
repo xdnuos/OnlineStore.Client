@@ -2,7 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { CommonModule, registerLocaleData } from '@angular/common';
-import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientJsonpModule,
+  HttpClientModule,
+} from '@angular/common/http';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,6 +33,8 @@ import { CartPage } from './pages/cart/cart.component';
 import { HomePage } from './pages/home/home.component';
 import { OrdersPage } from './pages/orders/orders.component';
 import { UserPageComponent } from './pages/user/user.component';
+import { JWTTokenService } from './services/jwt-token.service';
+import { LocalStorageService } from './services/localStrorage.service';
 import { AuthEffect } from './store/auth/Auth.effect';
 import { AuthReducer } from './store/auth/Auth.reducer';
 import { CategoriesEffect } from './store/categories/Categories.effect';
@@ -37,6 +43,7 @@ import { OrderEffect } from './store/orders/Order.effect';
 import { OrderReducer } from './store/orders/Order.reducer';
 import { ProductEffect } from './store/product/Product.effect';
 import { ProductReducer } from './store/product/Product.reducer';
+import { UniversalAppInterceptor } from './utils/universalAppInterceptor ';
 registerLocaleData(en);
 
 @NgModule({
@@ -90,7 +97,16 @@ registerLocaleData(en);
     HttpClientJsonpModule,
     NzIconModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UniversalAppInterceptor,
+      multi: true,
+    },
+    LocalStorageService,
+    JWTTokenService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

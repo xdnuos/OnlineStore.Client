@@ -5,6 +5,7 @@ import { CartPage } from './pages/cart/cart.component';
 import { HomePage } from './pages/home/home.component';
 import { OrdersPage } from './pages/orders/orders.component';
 import { UserPageComponent } from './pages/user/user.component';
+import { AuthGuard } from './services/authorizeGuard.service';
 
 const routes: Routes = [
   { path: '', component: HomePage },
@@ -27,6 +28,7 @@ const routes: Routes = [
   {
     path: 'profile',
     component: UserPageComponent,
+    canActivate: [AuthGuard],
   },
 ];
 

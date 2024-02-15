@@ -7,7 +7,6 @@ import {
   OrderPagination,
   ProductOrder,
 } from '../store/model/Order.model';
-import { getHeaders } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,22 +17,17 @@ export class OrdersService {
   constructor(private http: HttpClient) {}
 
   create(req: ProductOrder[]): Observable<Order> {
-    const headers = getHeaders();
-    console.log(headers);
-    return this.http
-      .post<Order>(this.baseurl + '/create', req, { headers })
-      .pipe(
-        catchError((error) => {
-          console.error('Error creating order:', error);
-          return throwError(() => error);
-        })
-      );
+    return this.http.post<Order>(this.baseurl + '/create', req).pipe(
+      catchError((error) => {
+        console.error('Error creating order:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   getPagination(page: number, limit: number): Observable<OrderPagination> {
     const url = `${this.baseurl}?page=${page}&size=${limit}`;
-    const headers = getHeaders();
-    return this.http.get<OrderPagination>(url, { headers }).pipe(
+    return this.http.get<OrderPagination>(url).pipe(
       catchError((error) => {
         console.error('Error fetching orders:', error);
         return throwError(() => error);

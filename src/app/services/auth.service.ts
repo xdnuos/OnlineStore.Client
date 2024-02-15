@@ -9,13 +9,17 @@ import {
   RegisterUser,
   UserRes,
 } from '../store/model/User.model';
-import { getHeaders } from './token.service';
+import { LocalStorageService } from './localStrorage.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   baseurl = `${environment.baseurl}`;
-  constructor(private http: HttpClient, private message: NzMessageService) {}
+  constructor(
+    private http: HttpClient,
+    private message: NzMessageService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   login(req: LoginUser): Observable<UserRes> {
     return this.http.post<UserRes>(this.baseurl + '/login', req).pipe(
@@ -40,8 +44,7 @@ export class AuthService {
   //change password
   changePassword(req: ChangePassword): Observable<string> {
     const url = this.baseurl + '/change-password';
-    const headers = getHeaders();
-    return this.http.put<string>(url, req, { headers }).pipe(
+    return this.http.put<string>(url, req).pipe(
       catchError((error) => {
         console.error('Error:', error);
         return throwError(() => error);
@@ -51,4 +54,13 @@ export class AuthService {
   //forgot password
 
   //logout
+  logOut() {
+    this.localStorageService.remove('token');
+    this.localStorageService.remove('user');
+  }
+
+  //get token
+  getToken() {
+    return this.localStorageService.get('token');
+  }
 }

@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { localStorageService } from '../../services/localStrorage.service';
+import { LocalStorageService } from '../../services/localStrorage.service';
 import * as authActions from './Auth.action';
 @Injectable()
 export class AuthEffect {
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -15,8 +19,8 @@ export class AuthEffect {
         return this.authService.login(action.req).pipe(
           map((data) => {
             console.log(data);
-            localStorageService.set('token', data.token);
-            localStorageService.set('user', data.user);
+            this.localStorageService.set('token', data.token);
+            this.localStorageService.set('user', data.user);
             return authActions.loginSuccess({
               user: data.user,
               token: data.token,
@@ -40,8 +44,8 @@ export class AuthEffect {
       exhaustMap((action) => {
         return this.authService.register(action.req).pipe(
           map((data) => {
-            localStorageService.set('token', data.token);
-            localStorageService.set('user', data.user);
+            this.localStorageService.set('token', data.token);
+            this.localStorageService.set('user', data.user);
             return authActions.registerSuccess({
               user: data.user,
               token: data.token,
@@ -63,8 +67,7 @@ export class AuthEffect {
     this.actions$.pipe(
       ofType(authActions.logout),
       exhaustMap(() => {
-        localStorageService.remove('token');
-        localStorageService.remove('user');
+        this.authService.logOut();
         return of(authActions.logoutSuccess());
       })
     )
