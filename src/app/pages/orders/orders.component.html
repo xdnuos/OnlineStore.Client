@@ -1,16 +1,20 @@
+<div style="margin-top: 96px">
+  <h1 nz-typography>My Orders</h1>
+  <div *ngIf="totalOrder > 0; else noOrder">
+    <app-order-component
+      *ngFor="let order of orders$ | async"
+      [order]="order"
+    ></app-order-component>
+  </div>
+  <ng-template #noOrder>
+    <nz-empty></nz-empty>
+  </ng-template>
+</div>
 <nz-tabset nzType="card" nzCentered="true">
-  <nz-tab nzTitle="All">
-    <div *ngIf="totalOrder > 0; else noOrder">
-      <app-order-component
-        *ngFor="let order of orders$ | async"
-        [order]="order"
-      ></app-order-component>
-    </div>
-    <ng-template #noOrder>
-      <nz-empty></nz-empty>
-    </ng-template>
-  </nz-tab>
-  <nz-tab nzTitle="Cancelled">
+  <!-- <nz-tab nzTitle="All"> -->
+
+  <!-- </nz-tab> -->
+  <!-- <nz-tab nzTitle="Cancelled">
     <div *ngIf="totalCancelOrder > 0; else noCancelOrder">
       <app-order-component
         *ngFor="let cancelOrder of cancelOrders$ | async"
@@ -21,5 +25,5 @@
     <ng-template #noCancelOrder>
       <nz-empty></nz-empty>
     </ng-template>
-  </nz-tab>
+  </nz-tab> -->
 </nz-tabset>

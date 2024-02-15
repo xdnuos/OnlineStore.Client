@@ -117,15 +117,16 @@ export class ProductPaginationComponent implements OnInit {
       )
       .subscribe();
   }
-  addToCart(productID: number) {
+  addToCart(productID: number, qty: number = 1) {
     const cartItems: CartItem[] = JSON.parse(
       this.cookieService.get('cartItems') || '[]'
     );
     let item = cartItems.find((item) => item.productID === productID);
+
     if (item) {
-      item.quantity++;
+      item.quantity += qty;
     } else {
-      cartItems.push({ productID, quantity: 1 });
+      cartItems.push({ productID, quantity: qty });
     }
 
     this.cookieService.set('cartItems', JSON.stringify(cartItems));
@@ -139,6 +140,7 @@ export class ProductPaginationComponent implements OnInit {
       nzFooter: null,
       nzData: {
         productID: productId,
+        addToCart: this.addToCart.bind(this),
       },
     });
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { CookieService } from 'ngx-cookie-service';
@@ -21,7 +22,8 @@ export class CartPage implements OnInit {
     private productService: ProductService,
     private message: NzMessageService,
     private confirm: NzModalService,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     const listID = this.cartItems.map((item: any) => item.productID);
@@ -154,15 +156,8 @@ export class CartPage implements OnInit {
   showConfirm(): void {
     this.confirmModal = this.confirm.confirm({
       nzTitle: 'Do you Want to checkout?',
-      nzContent:
-        'When clicked the OK button, this dialog will be closed after 1 second',
-      nzOnOk: () =>
-        new Promise((resolve, reject) => {
-          this.createOrder();
-        }).catch((error) => {
-          console.log('Oops errors!');
-          this.message.error('Oops errors!', error);
-        }),
+      nzContent: '',
+      nzOnOk: () => this.createOrder(),
     });
   }
 
@@ -173,11 +168,18 @@ export class CartPage implements OnInit {
         quantity: item.quantity,
       };
     });
-    this.ordersService.create(orderItems).subscribe(() => {
-      this.message.success('Successfully created order');
-      this.cookieService.set('cartItems', JSON.stringify([]));
-      this.items = [];
-      this.total = 0;
-    });
+    this.ordersService.create(orderItems).subscribe(
+      () => {
+        this.message.success('Successfully created order');
+        this.cookieService.set('cartItems', JSON.stringify([]));
+        this.items = [];
+        this.total = 0;
+        this.router.navigate(['/orders']);
+      },
+      (error: any) => {
+        console.error('Error creating order:', error);
+        this.message.error('Oops errors!', error);
+      }
+    );
   }
 }

@@ -10,7 +10,7 @@ export interface orderDetails {
 }
 export interface Order {
   orderID: number;
-  createAt: string;
+  createdAt: string;
   orderDetails: orderDetails[];
   totalPrice: number;
 }

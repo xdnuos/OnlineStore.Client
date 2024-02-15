@@ -36,29 +36,29 @@ export class OrderEffect {
     )
   );
 
-  loadOrderCancelPagination$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(orderActions.loadOrderCancelPagination),
-      exhaustMap((action) => {
-        return this.orderService
-          .getCancelPagination(action.page, action.limit)
-          .pipe(
-            map((data) => {
-              console.log('order cancel', data);
-              return orderActions.loadOrderCancelPaginationSuccess({
-                list: data.data,
-                total: data.totalCount,
-              });
-            }),
-            catchError((_error) =>
-              of(
-                orderActions.loadOrderCancelPaginationFail({
-                  errorMessage: _error.message,
-                })
-              )
-            )
-          );
-      })
-    )
-  );
+  // loadOrderCancelPagination$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(orderActions.loadOrderCancelPagination),
+  //     exhaustMap((action) => {
+  //       return this.orderService
+  //         .getCancelPagination(action.page, action.limit)
+  //         .pipe(
+  //           map((data) => {
+  //             console.log('order cancel', data);
+  //             return orderActions.loadOrderCancelPaginationSuccess({
+  //               list: data.data,
+  //               total: data.totalCount,
+  //             });
+  //           }),
+  //           catchError((_error) =>
+  //             of(
+  //               orderActions.loadOrderCancelPaginationFail({
+  //                 errorMessage: _error.message,
+  //               })
+  //             )
+  //           )
+  //         );
+  //     })
+  //   )
+  // );
 }

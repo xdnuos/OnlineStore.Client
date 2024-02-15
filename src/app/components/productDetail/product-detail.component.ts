@@ -6,6 +6,7 @@ import { ProductService } from '../../services/product.service';
 import { DetailProduct } from '../../store/model/Product.model';
 export interface ModalData {
   productID: number;
+  addToCart: Function;
 }
 @Component({
   selector: 'product-detail',
@@ -19,17 +20,19 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductService,
     private message: NzMessageService
   ) {}
+
   ngOnInit(): void {
     this.product$ = this.productService.getByID(this.data.productID);
   }
   quantity: number = 1;
-
   decreaseQuantity() {
     if (this.quantity > 1) {
       this.quantity--;
     }
   }
-
+  addToCart(productID: number): void {
+    this.data.addToCart(productID, this.quantity);
+  }
   increaseQuantity(stock: number) {
     if (this.quantity < stock) {
       this.quantity++;
